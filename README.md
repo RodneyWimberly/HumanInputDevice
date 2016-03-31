@@ -1,0 +1,2 @@
+# HumanInputDevice
+RoomExtender HID
