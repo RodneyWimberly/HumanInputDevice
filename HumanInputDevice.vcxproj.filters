@@ -24,9 +24,6 @@
     <ClInclude Include="LiquidCrystal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IPAddress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="nRF24L01.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,9 +39,6 @@
     <ClInclude Include="RF24_config.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EEPROM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EEPROMex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -52,6 +46,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HumanInputDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="io.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Property.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="RfPacket.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigRegister.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.HumanInputDevice.vsarduino.h">
@@ -65,9 +71,6 @@
     <ClCompile Include="LiquidCrystal.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IPAddress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Radio.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,6 +78,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EEPROMex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RfPacket.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ConfigRegister.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

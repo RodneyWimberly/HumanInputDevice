@@ -1,88 +1,118 @@
-
-/******************************************************************************************
-/* Includes
-/******************************************************************************************/
 #include "HumanInputDevice.h"
-#include "LiquidCrystal.h"
-#include "DFR_Key.h"
-#include <Arduino.h>
-#include <SPI.h>
-#include "EEPROMex.h"
-#include "EEPROMvar.h"
-#include "IPAddress.h"
-#include "Radio.h"
 
+void wirelessEvent(Radio* radio, RfPacket* rfPacket, uint8_t pipeNumber);
 
-
-/******************************************************************************************
-/* Forward declarations
-/******************************************************************************************/
-void wirelessEvent(Radio* radio, hidTypes hidType, const void* buffer, uint8_t length);
-
-/******************************************************************************************
-/* Variable declarations
-/******************************************************************************************/
-const uint64_t addresses[6] = { 0xABCDABCD00LL, 0xABCDABCD10LL, 0xABCDABCD20LL, 0xABCDABCD11LL, 0xABCDABCD21LL, 0xABCDABCD12LL };
-
-/******************************************************************************************
-/* Class Initialization
-/******************************************************************************************/
-// DFRobot LCD Keypad Shield
 LiquidCrystal lcd(LCD_RS, LCD_ENABLE, LCD_DATA_0, LCD_DATA_1, LCD_DATA_2, LCD_DATA_3);
 DFR_Key keypad;
-
-// nRF24L01+ 2.4 GHz Wireless Transceiver
-Radio radio(
-	RADIO1_CE_PIN,
-	RADIO1_CS_PIN,
-	RADIO1_IRQ,
-	&wirelessEvent); 
+Radio radio(RADIO1_CE_PIN, RADIO1_CS_PIN, RADIO1_IRQ, &wirelessEvent); 
+ConfigRegister configRegister;
 
 void setup()
 {
 	Serial.begin(115200);
+	printf_begin();
 
-	// start reading from position memBase (address 0) of the EEPROM. Set maximumSize to EEPROMSizeUno 
-	// Writes before membase or beyond EEPROMSizeUno will only give errors when _EEPROMEX_DEBUG is set
-	EEPROM.setMemPool(memBase, EEPROMSizeUno);
-
-	// Set maximum allowed writes to maxAllowedWrites. 
-	// More writes will only give errors when _EEPROMEX_DEBUG is set
-	EEPROM.setMaxAllowedWrites(maxAllowedWrites);
-	//EEPROMVar<float> eepromFloat(5.5);  // initial value 5.5
-	//eepromFloat.save();     // store EEPROMVar to EEPROM
-	//eepromFloat = 0.0;      // reset 
-	//eepromFloat.restore();  // restore EEPROMVar to EEPROM
+	configRegister.begin();
 
 	lcd.begin(16, 2);
 	lcd.clear();
 	lcd.setCursor(0, 0);
 
-	radio.begin(addresses[1], addresses[0], true);
+	keypad.setRate(DEFAULT_KEY_RATE);
+
+	radio.begin(configRegister.HidAddress, HUMAN_INPUT_DEVICE_PIPE_ADDRESS, HOST_PIPE_ADDRESS, ROOM_EXTENDER_PIPE_ADDRESS, true);
+
+	Serial.println("HID is loaded and monitoring for new requests.");
 }
 
-
-/******************************************************************************************
-/* Process Loop 
-/******************************************************************************************/
-void loop()
+void wirelessEvent(Radio* radio, RfPacket* rfPacket, uint8_t pipeNumber)
 {
-
-  /* add main program code here */
-
-}
-
-
-/******************************************************************************************
-/* Event Handlers
-/******************************************************************************************/
-
-void wirelessEvent(Radio* radio, hidTypes hidType, const void* buffer, uint8_t length)
-{
-	const byte* current = reinterpret_cast<const byte*>(buffer);
+	printWirelessEvent(rfPacket, pipeNumber);
 	
-	if (hidType == HidSetKeyRate)
+	rfPacket->Success = true;
+
+	// If this is an ACK packet then we don't care...
+	if (pipeNumber == 0)
+		return;
+
+	if (rfPacket->Type == hidSetKeyRate)
 	{
+		const int* current = reinterpret_cast<const int*>(rfPacket->readBody());
 		keypad.setRate(current[0]);
 	}
+	else if (rfPacket->Type == hidGetKey)
+	{
+		int key[1] = { keypad.getKey() };
+		memcpy(rfPacket->readBody(), key, 1);
+	}
+	else if (rfPacket->Type == hidLcdClear)
+	{
+		lcd.clear();
+	}
+	else if (rfPacket->Type == hidLcdSetCursor)
+	{
+		const uint8_t* current = reinterpret_cast<const uint8_t*>(rfPacket->readBody());
+		lcd.setCursor(current[0], current[1]);
+	}
+	else if (rfPacket->Type == hidLcdPrint)
+	{
+		const char* current = reinterpret_cast<const char*>(rfPacket->readBody());
+		lcd.print(current);
+	}
+	else if (rfPacket->Type == hidLcdPrintLine)
+	{
+		const char* current = reinterpret_cast<const char*>(rfPacket->readBody());
+		lcd.println(current);
+	}
+	else if (rfPacket->Type == hidLcdWrite)
+	{
+		const char* current = reinterpret_cast<const char*>(rfPacket->readBody());
+		lcd.write(current);
+	}
+	else if (rfPacket->Type == hidLcdCommand)
+	{
+		const uint8_t* current = reinterpret_cast<const uint8_t*>(rfPacket->readBody());
+		lcd.command(current[0]);
+	}
+	else
+	{
+		rfPacket->Success = false;
+	}
+	Serial.println("sendAckPacket");
+	radio->sendAckPacket(rfPacket);
 }
+
+void printWirelessEvent(RfPacket* rfPacket, uint8_t pipeNumber)
+{
+	byte* buffer = reinterpret_cast<byte*>(rfPacket->readBody());
+
+	Serial.print(millis());
+	Serial.println(": wirelessEvent Fired!");
+
+	Serial.print("Pipe Number: ");
+	Serial.println(pipeNumber);
+
+	Serial.print("Source Address: ");
+	Serial.println(rfPacket->SourceAddress);
+
+	Serial.print("Destination Address: ");
+	Serial.println(rfPacket->DestinationAddress); 
+	
+	uint8_t type = rfPacket->Type;
+	Serial.print("PacketType: ");
+	Serial.println((PacketTypes)type);
+
+	uint8_t length = sizeof(buffer);
+	for (int i = 0; i < rfPacket->BodyLength; i++)
+	{
+		Serial.print("Buffer [");
+		Serial.print(i);
+		Serial.print("]: ");
+		Serial.println(buffer[i]);
+	}
+}
+
+void loop() 
+{
+}
+
