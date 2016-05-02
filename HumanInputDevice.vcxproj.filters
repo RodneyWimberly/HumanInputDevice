@@ -18,40 +18,10 @@
     <None Include="HumanInputDevice.ino" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DFR_Key.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LiquidCrystal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="IPAddress.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="nRF24L01.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="printf.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Radio.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RF24.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="RF24_config.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EEPROM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EEPROMex.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EEPROMVar.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HumanInputDevice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ConfigRegister.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="__vm\.HumanInputDevice.vsarduino.h">
@@ -59,22 +29,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DFR_Key.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LiquidCrystal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="IPAddress.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Radio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="RF24.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EEPROMex.cpp">
+    <ClCompile Include="ConfigRegister.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -7,16 +7,29 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "HumanInputDevice", "HumanIn
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|ARM64 = Debug|ARM64
 		Debug|x64 = Debug|x64
 		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|ARM64 = Release|ARM64
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		Description = This sketch in used to get human interaction via a LCD Display with a Keypad, Speaker, and a Microphone. The sketch uses the nRF24L01+ wireless transceiver receive requests and return results to the calling sketch
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|ARM.ActiveCfg = Debug|ARM
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|ARM.Build.0 = Debug|ARM
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|ARM64.Build.0 = Debug|ARM64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|x64.ActiveCfg = Debug|x64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|x64.Build.0 = Debug|x64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|x86.ActiveCfg = Debug|Win32
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Debug|x86.Build.0 = Debug|Win32
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|ARM.ActiveCfg = Release|ARM
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|ARM.Build.0 = Release|ARM
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|ARM64.ActiveCfg = Release|ARM64
+		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|ARM64.Build.0 = Release|ARM64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|x64.ActiveCfg = Release|x64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|x64.Build.0 = Release|x64
 		{4AE65B99-FE3B-490E-BB5A-3973BE964036}.Release|x86.ActiveCfg = Release|Win32
